@@ -16,14 +16,16 @@ class _HomePageState extends State<HomePage> {
     print('ok');
   }
 
-  Future<String> getData() async {
+  Future getData() async {
     final res;
-    res = await http.get(
-        Uri.parse('https://raw.githubusercontent.com/sit1977/Flutter2MobileAppBootcamp/main/layout/assets/data.json'));
+    var url =
+        Uri.parse('https://raw.githubusercontent.com/sit1977/Flutter2MobileAppBootcamp/main/layout/assets/data.json');
+    res = await http.get(url);
     if (res.statusCode == 200) {
-      return res.body;
+      // var data = json.decode(res.body.toString());
+      return json.decode(res.body.toString());
     } else {
-      return '';
+      return [];
     }
   }
 
@@ -45,11 +47,10 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: FutureBuilder(
-          builder: (context, snapshot) {
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              var data = json.decode(snapshot.data.toString());
-              //List a = [];
-              //a.length
+              //var data = json.decode(snapshot.data.toString());
+              var data = snapshot.data;
               return ListView.builder(
                   itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
