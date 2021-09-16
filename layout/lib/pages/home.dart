@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:layout/pages/detail.dart';
@@ -13,6 +14,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   void onPressed() {
     print('ok');
+  }
+
+  Future<String> getData() async {
+    final res;
+    res = await http.get(
+        Uri.parse('https://raw.githubusercontent.com/sit1977/Flutter2MobileAppBootcamp/main/layout/assets/data.json'));
+    if (res.statusCode == 200) {
+      return res.body;
+    } else {
+      return '';
+    }
   }
 
   @override
@@ -48,7 +60,8 @@ class _HomePageState extends State<HomePage> {
               return CircularProgressIndicator();
             }
           },
-          future: DefaultAssetBundle.of(context).loadString('assets/data.json'),
+          //future: DefaultAssetBundle.of(context).loadString('assets/data.json'),
+          future: getData(),
         ),
       ),
     );
@@ -64,7 +77,8 @@ class _HomePageState extends State<HomePage> {
           image: DecorationImage(
               fit: BoxFit.fitWidth,
               colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken),
-              image: AssetImage('assets/images/$pathimage')),
+              //image: AssetImage('assets/images/$pathimage')
+              image: NetworkImage(pathimage)),
           boxShadow: [BoxShadow(offset: Offset(0, 2), blurRadius: 5, color: Colors.black.withOpacity(0.5))],
           borderRadius: BorderRadius.circular(15)),
       child: Padding(
