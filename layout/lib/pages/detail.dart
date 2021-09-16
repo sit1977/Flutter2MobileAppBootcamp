@@ -37,7 +37,8 @@ class DetailPage extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: Image(image: AssetImage('assets/images/' + image)),
+                //child: Image(image: AssetImage('assets/images/' + image)),
+                child: Image(image: NetworkImage('$image')),
               ),
               SizedBox(
                 height: _size.height * 0.02,
